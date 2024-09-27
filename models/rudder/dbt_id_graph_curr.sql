@@ -17,7 +17,7 @@ In the incremental mode, simply add new edges from IDENTIFIES to the CURR table
                     max(version_anon_id)+1 as next_version_anon_id,
                     max(version_user_id)+1 as next_version_user_id
                 FROM 
-                    DATABASE.SCHEMA.DBT_ID_GRAPH_CURR
+                    "idmapping"."public".DBT_ID_GRAPH_CURR
 
             )
     select
@@ -29,7 +29,7 @@ In the incremental mode, simply add new edges from IDENTIFIES to the CURR table
             ,  version_table.next_version_user_id as version_user_id
             , cast(sent_at as timestamp) as edge_timestamp
     from 
-        DATABASE.SCHEMA.IDENTIFIES,
+        "idmapping"."public".IDENTIFIES,
         version_table
     where 
         cast(sent_at as timestamp) > (select max(edge_timestamp) from {{ this }})
@@ -46,8 +46,8 @@ Complete recreation. Here again two situations are possible - recreation at the 
     */
 
     {%- set check_relation = adapter.get_relation(
-      database="RUDDER_WEBAPP_DATA",
-      schema="RUDDERWEBAPP",
+      database="idmapping",
+      schema="public",
       identifier="DBT_ID_GRAPH_CURR") 
     -%}    
 

@@ -13,7 +13,7 @@ select
     , 0 as version_user_id
     , cast(sent_at as timestamp) as edge_timestamp
 from
-    {{ source("<schema>","IDENTIFIES") }}
+    "idmapping"."public"
 where
     anonymous_id is not null
 and
